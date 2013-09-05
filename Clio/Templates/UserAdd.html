@@ -1,0 +1,22 @@
+﻿<div class="modal-header">
+    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+    <h3>Add User</h3>
+</div>
+<form name='user-form' class='form-horizontal' proxy-submit='post'>
+    <div class="modal-body">
+        <div id="userErrorModal"></div>
+        <div class="control-group">
+            <label class="control-label" for="inputUserName">Name</label>
+            <input type='text' name="inputUserName" value='{{name}}' placeholder='Name' required>
+        </div>
+        <div class="control-group">
+            <label class="control-label" for="inputUserEmail">Email</label>
+            <input type='email' name="inputUserEmail" value='{{email}}' placeholder='Email' required>
+        </div>
+    </div>
+    <div class="modal-footer">
+        <a href="#" class="btn" data-dismiss="modal">Close</a>
+        <input type='submit' class="btn btn-primary" value='Save' />
+    </div>
+</form>
+

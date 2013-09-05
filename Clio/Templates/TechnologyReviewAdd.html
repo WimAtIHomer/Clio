@@ -1,0 +1,45 @@
+﻿<div class="modal-header">
+    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+    <h3>Add Review</h3>
+</div>
+<form name='technologyreview-form' class='form-horizontal' proxy-submit='post'>
+    <div class="modal-body">
+        <div id="technologyreviewErrorModal"></div>
+        <div class="control-group">
+            <label class="control-label" for="inputReviewCustomer">Technology</label>
+            <input type='text' name="inputReviewCustomer" value='{{name}}' disabled="disabled">
+        </div>
+        <div class="control-group">
+            <label class="control-label" for="inputReviewName">Version</label>
+            <input type='text' name="inputReviewName" value='{{version}}' placeholder='Version' required>
+        </div>
+        <div class="control-group">
+            <label class="control-label" for="inputTechnologyProject">Project</label>
+            <select id="inputTechnologyProject" value='{{projectId}}'>
+                <option value="0"></option>
+                {{#projects}}
+                <option value='{{.id}}'>{{.name}}</option>
+                {{/projects}}
+            </select>
+        </div>
+        <div class="control-group">
+            <label class="control-label">Rating</label>
+            <div class="controls">
+                <label class="radio inline"><input type='radio' name='{{rating}}' value='1'><i class="emoticon-cry"></i></label>
+                <label class="radio inline"><input type='radio' name='{{rating}}' value='2'><i class="emoticon-straight"></i></label>
+                <label class="radio inline"><input type='radio' name='{{rating}}' value='3' checked="checked"><i class="emoticon-smile"></i></label>
+                <label class="radio inline"><input type='radio' name='{{rating}}' value='4'><i class="emoticon-grin"></i></label>
+                <label class="radio inline"><input type='radio' name='{{rating}}' value='5'><i class="emoticon-laugh"></i></label>
+            </div>
+        </div>
+        <div class="control-group">
+            <label class="control-label" for="inputReviewDescription">Review</label>
+            <textarea name="inputReviewDescription" class="larger" rows="10" value='{{text}}' placeholder='Review' required></textarea>
+        </div>
+    </div>
+    <div class="modal-footer">
+        <a href="#" class="btn" data-dismiss="modal">Close</a>
+        <input type='submit' class="btn btn-primary" value='Save' />
+    </div>
+</form>
+

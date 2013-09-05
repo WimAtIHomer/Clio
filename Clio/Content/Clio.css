@@ -1,0 +1,109 @@
+﻿body {
+    padding: 45px 3px 40px;
+}
+
+.Clio
+{
+    background-color: white;
+    -moz-border-radius: 10px;
+    -webkit-border-radius: 10px;
+    border-radius: 10px;
+}
+
+.link-resource:hover a.edit-resource {
+    display: inline;
+    visibility: visible;
+}
+.list-resource:hover a.add-resource {
+    display: inline;
+    visibility: visible;
+}
+.list-resource {
+    margin-bottom: 0px;
+}
+.control-group > input, textarea, select {
+    margin-left: 5px;
+}
+.reviewcount {
+    margin-right: 10px;
+}
+.emoticon-cry
+{
+    display: inline-block;
+    width: 14px;
+    height: 14px;
+    *margin-right: .3em;
+    line-height: 14px;
+    vertical-align: text-top;
+    background-image: url("images/emoticons/Crying.png");
+    background-repeat: no-repeat;
+    -moz-background-size: cover;
+    -o-background-size: cover;
+    -webkit-background-size: cover;
+    background-size: cover;
+    margin-top: 1px;
+}
+.emoticon-straight {
+  display: inline-block;
+  width: 14px;
+  height: 14px;
+  *margin-right: .3em;
+  line-height: 14px;
+  vertical-align: text-top;
+  background-image: url("images/emoticons/Straight-Face.png");
+  background-repeat: no-repeat;
+    -moz-background-size: cover;
+    -o-background-size: cover;
+    -webkit-background-size: cover;
+    background-size: cover;
+  margin-top: 1px;
+}
+.emoticon-smile {
+  display: inline-block;
+  width: 14px;
+  height: 14px;
+  *margin-right: .3em;
+  line-height: 14px;
+  vertical-align: text-top;
+  background-image: url("images/emoticons/Smile.png");
+  background-repeat: no-repeat;
+      -moz-background-size: cover;
+    -o-background-size: cover;
+    -webkit-background-size: cover;
+    background-size: cover;
+  margin-top: 1px;
+}
+.emoticon-grin {
+  display: inline-block;
+  width: 14px;
+  height: 14px;
+  *margin-right: .3em;
+  line-height: 14px;
+  vertical-align: text-top;
+  background-image: url("images/emoticons/Big-Grin.png");
+  background-repeat: no-repeat;
+      -moz-background-size: cover;
+    -o-background-size: cover;
+    -webkit-background-size: cover;
+    background-size: cover;
+  margin-top: 1px;
+}
+.emoticon-laugh {
+  display: inline-block;
+  width: 14px;
+  height: 14px;
+  *margin-right: .3em;
+  line-height: 14px;
+  vertical-align: text-top;
+  background-image: url("images/emoticons/Laughing.png");
+  background-repeat: no-repeat;
+      -moz-background-size: cover;
+    -o-background-size: cover;
+    -webkit-background-size: cover;
+    background-size: cover;
+  margin-top: 1px;
+}
+
+textarea.larger {
+    width: 286px;
+}

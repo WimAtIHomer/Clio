@@ -1,0 +1,34 @@
+﻿<fieldset class="list-resource">
+    <legend>Reviews</legend>
+    {{#hasFilter}}
+    <div class="pull-right">
+        <strong>Filter:</strong> {{filter.name}}<a href="#" on-click="removefilter"><i class="icon-remove"></i></a>
+    </div>
+    {{/hasFilter}}
+    {{#noResults}}
+    <div>
+        <span class="alert-info">No results</span>
+    </div>
+    {{/noResults}}
+    <div>
+        {{#reviews:index}}
+        <div class="link-resource">
+            <div class="row-fluid">
+                <div class="span2">
+                    {{format(created)}}
+                    <img src="{{gravatar(userEmail)}}" title="{{userName}}" />
+                </div>
+                <div class="span10">
+                    <h3>{{projectName}}: {{name}}</h3>
+                    <p><i class="{{emoticon(rating)}}"></i> {{text}}</p>
+                    <a on-click='edit' href="#reviewModal" title="edit" data-toggle="modal" class="{{editClass(userId)}} hidden" data-index="{{index}}"><i class="icon-edit"></i></a>
+                </div>
+                <div class="clearfix"></div>
+            </div>
+        </div>
+        <hr/>
+        {{/reviews}}
+    </div>
+    <div id="reviewPager"></div>
+    <div id="reviewModal" class="modal hide fade"></div>
+</fieldset>

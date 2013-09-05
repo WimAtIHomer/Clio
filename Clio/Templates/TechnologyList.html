@@ -1,0 +1,16 @@
+﻿<fieldset class="list-resource">
+    <legend>Technologies <a on-click='add' href="#technologyModal" class="add-resource hidden" title="add new" data-toggle="modal"><i class="icon-plus-sign"></i></a></legend>
+    <div>
+        {{#technologies:index}}
+        <div class="link-resource">
+            <a href="#" class="reviewcount" title="{{reviews}} reviews"><span class="badge badge-success">{{reviews}}</span></a>
+            <a on-click="filter" data-index="{{index}}" href="#" data-original-title="{{#languages}}{{#isLanguage(id,languageId)}}{{name}}{{/isLanguage(id,languageId)}}{{/languages}} ({{license}}) {{ description }}" data-toggle="tooltip" title="">{{name}} </a>
+            <a href="{{link}}" class="edit-resource hidden" target="_blank" title="{{link}}"><i class="icon-share"></i></a>
+            <a on-click='review' href="#reviewModal" class="edit-resource hidden" data-toggle="modal" title="review" data-index="{{index}}"><i class="icon-check"></i></a>
+            <a on-click='edit' href="#technologyModal" class="edit-resource hidden" title="edit" data-toggle="modal" data-index="{{index}}"><i class="icon-edit"></i></a>
+        </div>
+        {{/technologies}}
+    </div>
+    <div id="technologyPager"></div>
+    <div id="technologyModal" class="modal hide fade"></div>
+</fieldset>

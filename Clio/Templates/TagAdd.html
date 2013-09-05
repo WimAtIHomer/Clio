@@ -1,0 +1,23 @@
+﻿<div class="modal-header">
+    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+    <h3>Add Tag</h3>
+</div>
+<form name='tag-form' class='form-horizontal' proxy-submit='post'>
+    <div class="modal-body">
+        <div id="tagErrorModal"></div>        
+        <div id="errorModal"></div>
+        <div class="control-group">
+            <label class="control-label" for="inputTagName">Name</label>
+            <input type='text' name="inputTagName" value='{{name}}' placeholder='Tag' required>
+        </div>
+        <div class="control-group">
+            <label class="control-label" for="inputTagDescription">Description</label>
+            <textarea name="inputTagDescription" rows="5" value='{{description}}' placeholder='Description' required></textarea>
+        </div>
+    </div>
+    <div class="modal-footer">
+        <a href="#" class="btn" data-dismiss="modal">Close</a>
+        <input type='submit' class="btn btn-primary" value='Save' />
+    </div>
+</form>
+
