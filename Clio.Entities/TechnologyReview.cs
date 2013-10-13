@@ -8,8 +8,7 @@ using ServiceStack.ServiceHost;
 
 namespace IHomer.Clio.Entities
 {
-    [Route("/technologyreview", "POST")]
-    [Route("/technologyreview/{Id}", "PUT")]
+    [Route("/technologyreview", "POST, PUT")]
     public partial class TechnologyReview : IHasId<long>, IReturn<TechnologyReview>
     {
     }

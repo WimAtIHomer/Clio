@@ -4,8 +4,7 @@ using ServiceStack.ServiceHost;
 
 namespace IHomer.Clio.Entities
 {
-    [Route("/project", "POST")]
-    [Route("/project/{Id}", "PUT")]
+    [Route("/project", "POST, PUT")]
     public partial class Project : IHasId<long>, IReturn<Project>
     {
         [Ignore]

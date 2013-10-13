@@ -3,7 +3,6 @@ using ServiceStack.Common;
 using IHomer.Clio.Entities;
 using IHomer.Clio.Entities.Repositories;
 using IHomer.Clio.Services.DTO;
-using ServiceStack.ServiceInterface.Auth;
 
 namespace IHomer.Clio.Services
 {
@@ -20,19 +19,15 @@ namespace IHomer.Clio.Services
 
         public object Post(User user)
         {
-            var session = this.SessionAs<AuthUserSession>();
-            var cUser = Repository.GetByEmail(session.ProviderOAuthAccess[0].Email);
             var newUser = Repository.Store(user);
-            ClioHubManager.NewUser(cUser, newUser);
+            ClioHubManager.NewUser(User, newUser);
             return newUser;
         }
 
         public object Put(User user)
         {
-            var session = this.SessionAs<AuthUserSession>();
-            var cUser = Repository.GetByEmail(session.ProviderOAuthAccess[0].Email);
             var editUser = Repository.Store(user);
-            ClioHubManager.NewUser(cUser, editUser);
+            ClioHubManager.EditUser(User, editUser);
             return editUser;
         }
 

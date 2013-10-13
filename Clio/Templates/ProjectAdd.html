@@ -1,32 +1,32 @@
 ﻿<div class="modal-header">
     <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
-    <h3>Add Project</h3>
+    <h3>Project toevoegen</h3>
 </div>
 <form name='project-form' class='form-horizontal' proxy-submit='post'>
     <div class="modal-body">
         <div id="projectErrorModal"></div>        
         <div class="control-group">
-            <label class="control-label" for="inputProjectCustomer">Customer</label>
-            <input type='text' name="inputProjectCustomer" value='{{customer}}' placeholder='Customer' required>
+            <label class="control-label" for="inputProjectCustomer">Klant</label>
+            <input type='text' name="inputProjectCustomer" value='{{customer}}' placeholder='Klant' required>
         </div>
         <div class="control-group">
-            <label class="control-label" for="inputProjectName">Name</label>
-            <input type='text' name="inputProjectName" value='{{name}}' placeholder='Name' required>
+            <label class="control-label" for="inputProjectName">Naam</label>
+            <input type='text' name="inputProjectName" value='{{name}}' placeholder='Naam' required>
         </div>
         <div class="control-group">
-            <label class="control-label" for="inputProjectStartDate">Start Date</label>
+            <label class="control-label" for="inputProjectStartDate">Start Datum</label>
             <div class="input-append date datepicker" data-date="{{format(startDate)}}" data-date-format="dd-mm-yyyy">
                 <input type="text" readonly="readonly" id="inputProjectStartDate" name="inputProjectStartDate" value="{{format(startDate)}}" required><span class="add-on"><i class="icon-th"></i></span>
             </div>
         </div>
         <div class="control-group">
-            <label class="control-label" for="inputProjectDescription">Description</label>
-            <textarea name="inputProjectDescription" rows="5" value='{{description}}' placeholder='Description' required></textarea>
+            <label class="control-label" for="inputProjectDescription">Beschrijving</label>
+            <textarea name="inputProjectDescription" rows="5" value='{{description}}' placeholder='Beschrijving' required></textarea>
         </div>
     </div>
     <div class="modal-footer">
-        <a href="#" class="btn" data-dismiss="modal">Close</a>
-        <input type='submit' class="btn btn-primary" value='Save' />
+        <a href="#" class="btn" data-dismiss="modal">Sluiten</a>
+        <input type='submit' class="btn btn-primary" value='Opslaan' />
     </div>
 </form>
 

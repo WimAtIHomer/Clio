@@ -16,7 +16,7 @@ namespace IHomer.Clio.Entities.Repositories
         {
             using (var db = DbFactory.OpenDbConnection())
             {
-                return db.Select<Review>();
+                return db.Select<Review>(visitor => visitor.OrderByDescending(r => r.Created));
             }
         }
 

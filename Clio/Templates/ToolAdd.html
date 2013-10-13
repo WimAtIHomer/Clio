@@ -1,17 +1,17 @@
 ﻿<div class="modal-header">
     <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
-    <h3>Add Tool</h3>
+    <h3>Applicatie toevoegen</h3>
 </div>
 <form name='tool-form' class='form-horizontal' proxy-submit='post'>
     <div class="modal-body">
         <div id="toolErrorModal"></div>        
         <div class="control-group">
-            <label class="control-label" for="inputToolOwner">Owner</label>
-            <input type='text' name="inputToolOwner" value='{{owner}}' placeholder='Owner' required>
+            <label class="control-label" for="inputToolName">Naam</label>
+            <input type='text' name="inputToolName" value='{{name}}' placeholder='Naam' required>
         </div>
         <div class="control-group">
-            <label class="control-label" for="inputToolName">Name</label>
-            <input type='text' name="inputToolName" value='{{name}}' placeholder='Name' required>
+            <label class="control-label" for="inputToolOwner">Bedrijf</label>
+            <input type='text' name="inputToolOwner" value='{{owner}}' placeholder='Bedrijf' required>
         </div>
         <div class="control-group">
             <label class="control-label" for="inputToolTags">Tags</label>
@@ -26,17 +26,17 @@
             <input type="url" name="inputToolLink" value='{{link}}' placeholder='Website' required>
         </div>
         <div class="control-group">
-            <label class="control-label" for="inputToolLicense">License</label>
-            <input type='text' name="inputToolLicense" value='{{license}}' placeholder='License' required>
+            <label class="control-label" for="inputToolLicense">Licentie</label>
+            <input type='text' name="inputToolLicense" value='{{license}}' placeholder='Licentie' required>
         </div>
         <div class="control-group">
-            <label class="control-label" for="inputToolDescription">Description</label>
-            <textarea name="inputToolDescription" rows="5" value='{{description}}' placeholder='Description' required></textarea>
+            <label class="control-label" for="inputToolDescription">Omschrijving</label>
+            <textarea name="inputToolDescription" rows="5" value='{{description}}' placeholder='Omschrijving' required></textarea>
         </div>
     </div>
     <div class="modal-footer">
-        <a href="#" class="btn" data-dismiss="modal">Close</a>
-        <input type='submit' class="btn btn-primary" value='Save' />
+        <a href="#" class="btn" data-dismiss="modal">Sluiten</a>
+        <input type='submit' class="btn btn-primary" value='Opslaan' />
     </div>
 </form>
 

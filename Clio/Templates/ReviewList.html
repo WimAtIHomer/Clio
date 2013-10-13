@@ -1,13 +1,13 @@
 ﻿<fieldset class="list-resource">
-    <legend>Reviews</legend>
+    <legend>Ervaringen</legend>
     {{#hasFilter}}
     <div class="pull-right">
-        <strong>Filter:</strong> {{filter.name}}<a href="#" on-click="removefilter"><i class="icon-remove"></i></a>
+        <strong>Filter:</strong> {{filter.name}}<a href="#" on-click="removefilter" title="verwijder filter"><i class="icon-remove"></i></a>
     </div>
     {{/hasFilter}}
     {{#noResults}}
     <div>
-        <span class="alert-info">No results</span>
+        <span class="alert-info">Geen resultaten</span>
     </div>
     {{/noResults}}
     <div>
@@ -19,9 +19,9 @@
                     <img src="{{gravatar(userEmail)}}" title="{{userName}}" />
                 </div>
                 <div class="span10">
-                    <h3>{{projectName}}: {{name}}</h3>
+                    <h3>{{projectName}}: {{name}} {{version}}</h3>
                     <p><i class="{{emoticon(rating)}}"></i> {{text}}</p>
-                    <a on-click='edit' href="#reviewModal" title="edit" data-toggle="modal" class="{{editClass(userId)}} hidden" data-index="{{index}}"><i class="icon-edit"></i></a>
+                    <a on-click='edit' href="#reviewModal" title="aanpassen" data-toggle="modal" class="{{editClass(userId)}} hidden" data-index="{{index}}"><i class="icon-edit"></i></a>
                 </div>
                 <div class="clearfix"></div>
             </div>

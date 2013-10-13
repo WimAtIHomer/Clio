@@ -9,6 +9,7 @@ using Microsoft.AspNet.SignalR;
 using Microsoft.AspNet.SignalR.Json;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Serialization;
+using log4net.Config;
 
 namespace Clio
 {
@@ -16,6 +17,7 @@ namespace Clio
     {
         void Application_Start(object sender, EventArgs e)
         {
+            XmlConfigurator.Configure();
             RouteTable.Routes.MapHubs();
             var serializerSettings = new JsonSerializerSettings
             {

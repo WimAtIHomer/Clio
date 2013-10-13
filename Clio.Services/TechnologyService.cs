@@ -1,4 +1,5 @@
-﻿using ServiceStack.Common;
+﻿using IHomer.Clio.Services.Hubs;
+using ServiceStack.Common;
 using IHomer.Clio.Entities;
 using IHomer.Clio.Entities.Repositories;
 using IHomer.Clio.Services.DTO;
@@ -18,12 +19,16 @@ namespace IHomer.Clio.Services
 
         public object Post(Technology technology)
         {
-            return Repository.Store(technology);
+            var newTechnology = Repository.Store(technology);
+            ClioHubManager.NewTechnology(User, newTechnology);
+            return newTechnology;
         }
 
         public object Put(Technology technology)
         {
-            return Repository.Store(technology);
+            var editTechnology = Repository.Store(technology);
+            ClioHubManager.EditTechnology(User, editTechnology);
+            return editTechnology;
         }
 
         public void Delete(TechnologyIds technologyIds)

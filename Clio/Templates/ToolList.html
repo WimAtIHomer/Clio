@@ -1,13 +1,13 @@
 ﻿<fieldset class="list-resource">
-    <legend>Tools <a on-click='add' href="#toolModal" class="add-resource hidden" data-toggle="modal"><i class="icon-plus-sign"></i></a></legend>
+    <legend>Applicaties <a on-click='add' href="#toolModal" class="add-resource hidden" data-toggle="modal" title="nieuwe toevoegen"><i class="icon-plus-sign"></i></a></legend>
     <div>
         {{#tools:index}}
         <div class="link-resource">
-            <a href="#" class="reviewcount" title="{{reviews}} reviews"><span class="badge badge-success">{{reviews}}</span></a>
+            <a href="#" class="reviewcount" title="{{reviews}} ervaringen"><span class="badge badge-success">{{reviews}}</span></a>
             <a on-click="filter" data-index="{{index}}" href="#" data-original-title="{{ owner }} ({{license}}) {{ description }}" data-toggle="tooltip" title="">{{name}} </a>
             <a href="{{link}}" class="edit-resource hidden" target="_blank" title="{{link}}"><i class="icon-share"></i></a>
-            <a on-click='review' href="#reviewModal" class="edit-resource hidden" data-toggle="modal" title="review" data-index="{{index}}"><i class="icon-check"></i></a>
-            <a on-click='edit' href="#toolModal" class="edit-resource hidden" data-toggle="modal" title="edit" data-index="{{index}}"><i class="icon-edit"></i></a>
+            <a on-click='review' href="#reviewModal" class="edit-resource hidden" data-toggle="modal" title="ervaring" data-index="{{index}}"><i class="icon-check"></i></a>
+            <a on-click='edit' href="#toolModal" class="edit-resource hidden" data-toggle="modal" title="aanpassen" data-index="{{index}}"><i class="icon-edit"></i></a>
         </div>
         {{/tools}}
     </div>

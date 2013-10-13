@@ -10,8 +10,12 @@
 /// <reference path="typings/md5/md5.d.ts" />
 /// <reference path="typings/signalr/signalr.d.ts" />
 
+declare var path: string
+
 interface iReview {
+    id: number;
     type: string;
+    name: string;
     userId: number;
     toolId: number;
     technologyId: number;
@@ -21,28 +25,35 @@ interface iUser {
     id: number;
     name: string;
     email: string;
+    reviews: number;
 }
 interface iProject {
     id: number;
     name: string;
     customer: string;
+    reviews: number;
 }
 interface iFilter {
     field: string;
     id: number;
     name: string;
 }
+interface iTag {
+    id: number;
+    name: string;
+}
 interface iTool {
     id: number;
     name: string;
+    reviews: number;
 }
 interface iTechnology {
     id: number;
     name: string;
+    reviews: number;
 }
 
 module Clio {
-
     export class Server {
         static ClioHub = $.connection.clioHub;
         static Connect = function () {
@@ -53,97 +64,121 @@ module Clio {
                 $('#message').text(user + " login");
             }
             Server.ClioHub.client.addUser = function (user, user2) {
-                $('#message').text(user.name + " added " + user2.name + ' user');
+                $('#message').text(user.name + " heeft " + user2.name + ' toegevoegd');
                 if (user.id != CurrentUser.user.id) {
                     User.All.push(user2);
+                    User.sort(true);
                 }
             }
             Server.ClioHub.client.editUser = function (user, user2) {
-                $('#message').text(user.name + " edited " + user2.name + ' user');
+                $('#message').text(user.name + " heeft " + user2.name + ' aangepast');
                 if (user.id != CurrentUser.user.id) {
                     $.each(User.All, function (index, item) {
                         if (item.id == user2.id) {
                             User.All[index] = user2;
+                            User.sort(true);
+                            return false;
                         }
                     });
                 }
             }
             Server.ClioHub.client.addProject = function (user, project) {
-                $('#message').text(user.name + " added " + project.name + ' project');
+                $('#message').text(user.name + " heeft project " + project.name + ' toegevoegd');
                 if (user.id != CurrentUser.user.id) {
                     Project.All.push(project);
+                    Project.sort(true);
                 }
             }
             Server.ClioHub.client.editProject = function (user, project) {
-                $('#message').text(user.name + " edited " + project.name + ' project');
+                $('#message').text(user.name + " heeft project " + project.name + ' aangepast');
                 if (user.id != CurrentUser.user.id) {
                     $.each(Project.All, function (index, item) {
                         if (item.id == project.id) {
-                            Tag.All[index] = project;
+                            Project.All[index] = project;
+                            Project.sort(true);
+                            return false;
                         }
                     });
                 }
             }
             Server.ClioHub.client.addTechnology = function (user, technology) {
-                $('#message').text(user.name + " added " + technology.name + ' technology');
+                $('#message').text(user.name + " heeft tech " + technology.name + ' toegevoegd');
                 if (user.id != CurrentUser.user.id) {
                     Technology.All.push(technology);
+                    Technology.sort(true);
                 }
             }
             Server.ClioHub.client.editTechnology = function (user, technology) {
-                $('#message').text(user.name + " edited " + technology.name + ' technology');
+                $('#message').text(user.name + " heeft tech " + technology.name + ' aangepast');
                 if (user.id != CurrentUser.user.id) {
                     $.each(Technology.All, function (index, item) {
                         if (item.id == technology.id) {
-                            Tag.All[index] = technology;
+                            Technology.All[index] = technology;
+                            Technology.sort(true);
+                            return false;
                         }
                     });
                 }
             }
             Server.ClioHub.client.addTool = function (user, tool) {
-                $('#message').text(user.name + " added " + tool.name + ' tool');
+                $('#message').text(user.name + " heeft app " + tool.name + ' toegevoegd');
                 if (user.id != CurrentUser.user.id) {
                     Tool.All.push(tool);
+                    Tool.sort(true);
                 }
             }
             Server.ClioHub.client.editTool = function (user, tool) {
-                $('#message').text(user.name + " edited " + tool.name + ' tool');
+                $('#message').text(user.name + " heeft app " + tool.name + ' aangepast');
                 if (user.id != CurrentUser.user.id) {
                     $.each(Tool.All, function (index, item) {
                         if (item.id == tool.id) {
-                            Tag.All[index] = tool;
+                            Tool.All[index] = tool;
+                            Tool.sort(true);
+                            return false;
                         }
                     });
                 }
             }
             Server.ClioHub.client.addTag = function (user, tag) {
-                $('#message').text(user.name + " added " + tag.name + ' tag');
+                $('#message').text(user.name + " heeft tag " + tag.name + ' toegevoegd');
                 if (user.id != CurrentUser.user.id) {
                     Tag.All.push(tag);
+                    Tag.sort(true);
                 }
             }
             Server.ClioHub.client.editTag = function (user, tag) {
-                $('#message').text(user.name + " edited " + tag.name + ' tag');
+                $('#message').text(user.name + " heeft tag " + tag.name + ' aangepast');
                 if (user.id != CurrentUser.user.id) {
                     $.each(Tag.All, function (index, item) {
                         if (item.id == tag.id) {
                             Tag.All[index] = tag;
+                            Tag.sort(true);
+                            return false;
                         }
                     });
                 }
             }
-            Server.ClioHub.client.addReview = function (user, review) {
-                $('#message').text(user.name + " added " + review.name + ' review');
+            Server.ClioHub.client.addReview = function (user: iUser, review: iReview) {
+                $('#message').text(user.name + " heeft ervaring " + review.name + ' toegevoegd');
                 if (user.id != CurrentUser.user.id) {
-                    Review.All.push(review);
+                    Review.All.unshift(review);
+                    if (review.type == "Technology") Technology.reviewAdded(review.technologyId);
+                    if (review.type == "Tool") Tool.reviewAdded(review.toolId);
+                    User.reviewAdded(review.userId);
+                    Project.reviewAdded(review.projectId);
+                    var start = (Review.CurrentPage - 1) * 10;
+                    if (!Review.RactiveList.get('hasFilter')) {
+                        Review.RactiveList.set('reviews', Review.All.slice(start, start + 10));
+                    }
                 }
             }
             Server.ClioHub.client.editReview = function (user, review) {
-                $('#message').text(user.name + " edited " + review.name + ' review');
+                $('#message').text(user.name + " heeft ervaring " + review.name + ' aangepast');
                 if (user.id != CurrentUser.user.id) {
-                    $.each(Tag.All, function (index, item) {
+                    $.each(Review.All, function (index, item) {
                         if (item.id == review.id && item.type == review.type) {
                             Review.All[index] = review;
+                            return false;
                         }
                     });
                 }
@@ -153,6 +188,29 @@ module Clio {
 
     export class CurrentUser {
         static user: iUser;
+    }
+
+    export class Ping {
+        static Polling = function() {
+            setInterval(Ping.GetTime, 60000);
+        }
+
+        static GetTime = function () {
+            var restClient = new RestClient();
+            restClient.get(path + "time", {}, { cache: false }).
+                success(function (response, headers, config) {
+                    $("#time").html(response.data.time);
+                }).
+                error(function (response, headers, config) {
+                    Error.show(response.error.errorCode + ": " + response.error.message);
+                }).
+                validation(function (response, headers, config) {
+                    Error.show(response.validationErrors);
+                }).
+                unauthorized(function (response, headers, config) {
+                    Error.show("Session timeout");
+                });
+        }
     }
 
     export class Error {
@@ -191,16 +249,33 @@ module Clio {
     }
 
     export class Tag {
-        static All: Array;
+        static All: Array<iTag>;
         static CurrentPage = 1;
         static RactiveList;
+        
+        static sort = function (resetView: boolean) {
+            Tag.All.sort(function (a: iTag, b: iTag) {
+                var nameA = a.name.toLowerCase();
+                var nameB = b.name.toLowerCase();
+                if (nameA < nameB) //sort string ascending
+                    return -1
+                if (nameA > nameB)
+                    return 1
+                return 0 
+            });
+            if (resetView) {
+                var start = (Tag.CurrentPage - 1) * 10;
+                Tag.RactiveList.set('tags', Tag.All.slice(start, start + 10));
+            }
+        }
 
         static list = function (taglist) {
             var restClient = new RestClient();
-            restClient.get("/tag", {}, { cache: false }).
+            restClient.get(path + "tag", {}, { cache: false }).
                 success(function (response, headers, config) {
                     // do what you do
                     Tag.All = response.data;
+                    Tag.sort(false);
                     Tag.RactiveList.set('tags', Tag.All.slice(0, 10), function () {
                         $('#tags a').tooltip({}); 
                         $('#tagPager').bootstrapPaginator({
@@ -210,7 +285,9 @@ module Clio {
                             onPageChanged: function (event, oldPage, newPage) {
                                 Tag.CurrentPage = newPage;
                                 var start = (newPage - 1) * 10; 
+                                $('#tags a').tooltip('destroy');
                                 Tag.RactiveList.set('tags', Tag.All.slice(start, start + 10));
+                                $('#tags a').tooltip({}); 
                             }
                         });
                     });
@@ -260,7 +337,7 @@ module Clio {
                 tag.description = event.context.description;
 
                 var restClient = new RestClient();
-                restClient.update("/tag", tag, null).
+                restClient.update(path + "tag", tag, null).
                     success(function (response, headers, config) {
                         var start = (Tag.CurrentPage - 1) * 10;
                         Tag.RactiveList.set('tags', Tag.All.slice(start, start + 10));
@@ -295,7 +372,7 @@ module Clio {
                 tag.description = event.context.description;
 
                 var restClient = new RestClient();
-                restClient.insert("/tag", tag, null).
+                restClient.insert(path + "tag", tag, null).
                     success(function (response, headers, config) {
                         Tag.All.push(response.data);
                         if (Tag.All.length % 10 == 1) {
@@ -321,9 +398,37 @@ module Clio {
         static RactiveList;
         static CurrentPage = 1;
 
+        static reviewAdded = function (projectId: number) {
+            $.each(Project.All, function (index, item) {
+                if (item.id == projectId) {
+                    Project.All[index].reviews++;
+                    return false;
+                }
+            });
+            Project.sort(true);
+        }
+
+        static sort = function (resetView: boolean) {
+            Project.All.sort(function (a: iProject, b: iProject) {
+                var reviewDiv = b.reviews - a.reviews; //sort descending
+                if (reviewDiv != 0) return reviewDiv;
+                var nameA = a.name.toLowerCase();
+                var nameB = b.name.toLowerCase();
+                if (nameA < nameB) //sort string ascending
+                    return -1;
+                if (nameA > nameB)
+                    return 1;
+                return 0;
+            });
+            if (resetView) {
+                var start = (Project.CurrentPage - 1) * 10;
+                Project.RactiveList.set('projects', Project.All.slice(start, start + 10));
+            }
+        }
+
         static list = function(projectlist) {
             var restClient = new RestClient();
-            restClient.get("/project", {}, { cache: false }).
+            restClient.get(path + "project", {}, { cache: false }).
                 success(function (response, headers, config) {
                     // do what you do
                     Project.All = response.data;
@@ -336,7 +441,9 @@ module Clio {
                             onPageChanged: function (event, oldPage, newPage) {
                                 Project.CurrentPage = newPage;
                                 var start = (newPage - 1) * 10;
+                                $('#projects a').tooltip('destroy');
                                 Project.RactiveList.set('projects', Project.All.slice(start, start + 10));
+                                $('#projects a').tooltip({});
                             }
                         });
                     });
@@ -402,7 +509,7 @@ module Clio {
                 project.description = event.context.description;
 
                 var restClient = new RestClient();
-                restClient.update("/project", project, null).
+                restClient.update(path + "project", project, null).
                     success(function (response, headers, config) {
                         var start = (Project.CurrentPage - 1) * 10;
                         Project.RactiveList.set('projects', Project.All.slice(start, start + 10));
@@ -446,9 +553,10 @@ module Clio {
                 project.description = event.context.description;
 
                 var restClient = new RestClient();
-                restClient.insert("/project", project, null).
+                restClient.insert(path + "project", project, null).
                     success(function (response, headers, config) {
                         Project.All.push(response.data);
+                        Project.sort(false);
                         if (Project.All.length % 10 == 1) {
                            $('#projectPager').bootstrapPaginator({ totalPages: Math.ceil(Project.All.length / 10) });
                         }
@@ -473,12 +581,41 @@ module Clio {
         static RactiveList;
         static CurrentPage = 1;
 
+        static reviewAdded = function (technologyId: number) {
+            $.each(Technology.All, function (index, item) {
+                if (item.id == technologyId) {
+                    Technology.All[index].reviews++;
+                    return false;
+                }
+            });
+            Technology.sort(true);
+        }
+
+        static sort = function (resetView: boolean) {
+            Technology.All.sort(function (a: iTechnology, b: iTechnology) {
+                var reviewDiv = b.reviews - a.reviews; //sort descending
+                if (reviewDiv != 0) return reviewDiv;
+                var nameA = a.name.toLowerCase();
+                var nameB = b.name.toLowerCase();
+                if (nameA < nameB) //sort string ascending
+                    return -1
+                if (nameA > nameB)
+                    return 1
+                return 0
+            });
+            if (resetView) {
+                var start = (Technology.CurrentPage - 1) * 10;
+                Technology.RactiveList.set('technologies', Technology.All.slice(start, start + 10));
+            }
+        }
+
         static list = function (technologylist) {
             var restClient = new RestClient();
-            restClient.get("/technology", {}, { cache: false }).
+            restClient.get(path + "technology", {}, { cache: false }).
                 success(function (response, headers, config) {
                     // do what you do
                     Technology.All = response.data;
+                    Technology.sort(false);
                     Technology.RactiveList.set('technologies', Technology.All.slice(0, 10), function () {
                         $('#technologies a').tooltip({});
                         $('#technologyPager').bootstrapPaginator({
@@ -488,7 +625,9 @@ module Clio {
                             onPageChanged: function (event, oldPage, newPage) {
                                 Technology.CurrentPage = newPage;
                                 var start = (newPage - 1) * 10;
+                                $('#technologies a').tooltip('destroy');
                                 Technology.RactiveList.set('technologies', Technology.All.slice(start, start + 10));
+                                $('#technologies a').tooltip({});
                             }
                         });
                     });
@@ -500,7 +639,7 @@ module Clio {
                     Error.show(response.validationErrors);
                 });
 
-            restClient.get("/language", {}, { cache: false }).
+            restClient.get(path + "language", {}, { cache: false }).
                 success(function (response, headers, config) {
                     // do what you do
                     Technology.Languages = response.data;
@@ -579,7 +718,7 @@ module Clio {
                 technology.tags = $.map(tags, function (item, index) { return parseInt(item) });
 
                 var restClient = new RestClient();
-                restClient.update("/technology", technology, null).
+                restClient.update(path + "technology", technology, null).
                     success(function (response, headers, config) {
                         var start = (Technology.CurrentPage - 1) * 10;
                         Technology.RactiveList.set('technologies', Technology.All.slice(start, start + 10));
@@ -624,9 +763,10 @@ module Clio {
                 technology.tags = $.map(tags, function (item, index) { return parseInt(item) });
 
                 var restClient = new RestClient();
-                restClient.insert("/technology", technology, null).
+                restClient.insert(path + "technology", technology, null).
                     success(function (response, headers, config) {
                         Technology.All.push(response.data);
+                        Technology.sort(false);
                         if (Technology.All.length % 10 == 1) {
                             $('#technologyPager').bootstrapPaginator({ totalPages: Math.ceil(Technology.All.length / 10) });
                         }
@@ -650,12 +790,41 @@ module Clio {
         static RactiveList;
         static CurrentPage = 1;
 
+        static reviewAdded = function (toolId: number) {
+            $.each(Tool.All, function (index, item) {
+                if (item.id == toolId) {
+                    Tool.All[index].reviews++;
+                    return false;
+                }
+            });
+            Tool.sort(true);
+        }
+
+        static sort = function (resetView: boolean) {
+            Tool.All.sort(function (a: iTool, b: iTool) {
+                var reviewDiv = b.reviews - a.reviews; //sort descending
+                if (reviewDiv != 0) return reviewDiv;
+                var nameA = a.name.toLowerCase();
+                var nameB = b.name.toLowerCase();
+                if (nameA < nameB) //sort string ascending
+                    return -1
+                if (nameA > nameB)
+                    return 1
+                return 0
+            });
+            if (resetView) {
+                var start = (Tool.CurrentPage - 1) * 10;
+                Tool.RactiveList.set('tools', Tool.All.slice(start, start + 10));
+            }
+        }
+
         static list = function (toollist) {
             var restClient = new RestClient();
-            restClient.get("/tool", {}, { cache: false }).
+            restClient.get(path + "tool", {}, { cache: false }).
                 success(function (response, headers, config) {
                     // do what you do
                     Tool.All = response.data;
+                    Tool.sort(false);
                     Tool.RactiveList.set('tools', Tool.All.slice(0, 10), function () {
                         $('#tools a').tooltip({});
                         $('#toolPager').bootstrapPaginator({
@@ -665,7 +834,9 @@ module Clio {
                             onPageChanged: function (event, oldPage, newPage) {
                                 Tool.CurrentPage = newPage;
                                 var start = (newPage - 1) * 10;
+                                $('#tools a').tooltip('destroy');
                                 Tool.RactiveList.set('tools', Tool.All.slice(start, start + 10));
+                                $('#tools a').tooltip({});
                             }
                         });
                     });
@@ -734,10 +905,11 @@ module Clio {
                 tool.license = event.context.license;
                 tool.link = event.context.link;
                 tool.description = event.context.description;
-                tool.tags = $.map($('#inputToolTags').val(), function (item, index) { return parseInt(item) });
+                var tags = $('#inputToolTags').val() || [];
+                tool.tags = $.map(tags, function (item, index) { return parseInt(item) });
 
                 var restClient = new RestClient();
-                restClient.update("/tool", tool, null).
+                restClient.update(path + "tool", tool, null).
                     success(function (response, headers, config) {
                         var start = (Tool.CurrentPage - 1) * 10;
                         Tool.RactiveList.set('tools', Tool.All.slice(start, start + 10));
@@ -777,12 +949,14 @@ module Clio {
                 tool.license = event.context.license;
                 tool.link = event.context.link;
                 tool.description = event.context.description;
-                tool.tags = $.map($('#inputToolTags').val(), function (item, index) { return parseInt(item) });
-
+                var tags = $('#inputToolTags').val() || [];
+                tool.tags = $.map(tags, function (item, index) { return parseInt(item) });
+                
                 var restClient = new RestClient();
-                restClient.insert("/tool", tool, null).
+                restClient.insert(path + "tool", tool, null).
                     success(function (response, headers, config) {
                         Tool.All.push(response.data);
+                        Tool.sort(false);
                         if (Tool.All.length % 10 == 1) {
                             $('#toolPager').bootstrapPaginator({ totalPages: Math.ceil(Tool.All.length / 10) });
                         }
@@ -806,12 +980,41 @@ module Clio {
         static RactiveList;
         static CurrentPage = 1;
 
+        static reviewAdded = function (userId: number) {
+            $.each(User.All, function (index, item) {
+                if (item.id == userId) {
+                    User.All[index].reviews++;
+                    return false;
+                }
+            });
+            User.sort(true);
+        }
+
+        static sort = function (resetView: boolean) {
+            User.All.sort(function (a: iUser, b: iUser) {
+                var reviewDiv = b.reviews - a.reviews; //sort descending
+                if (reviewDiv != 0) return reviewDiv;
+                var nameA = a.name.toLowerCase();
+                var nameB = b.name.toLowerCase();
+                if (nameA < nameB) //sort string ascending
+                    return -1
+                if (nameA > nameB)
+                    return 1
+                return 0
+            });
+            if (resetView) {
+                var start = (User.CurrentPage - 1) * 10;
+                User.RactiveList.set('users', User.All.slice(start, start + 10));
+            }
+        }
+
         static list = function (userlist) {
             var restClient = new RestClient();
-            restClient.get("/user", {}, { cache: false }).
+            restClient.get(path + "user", {}, { cache: false }).
                 success(function (response, headers, config) {
                     // do what you do
                     User.All = response.data;
+                    User.sort(false);
                     User.RactiveList.set('users', User.All.slice(0, 10), function () {
                         $('#users a').tooltip({});
                         $('#userPager').bootstrapPaginator({
@@ -821,7 +1024,9 @@ module Clio {
                             onPageChanged: function (event, oldPage, newPage) {
                                 User.CurrentPage = newPage;
                                 var start = (newPage - 1) * 10;
+                                $('#users a').tooltip('destroy');
                                 User.RactiveList.set('users', User.All.slice(start, start + 10));
+                                $('#users a').tooltip({});
                             }
                         });
                     });
@@ -880,7 +1085,7 @@ module Clio {
                 user.email = event.context.email;
 
                 var restClient = new RestClient();
-                restClient.update("/user", user, null).
+                restClient.update(path + "user", user, null).
                     success(function (response, headers, config) {
                         var start = (User.CurrentPage - 1) * 10;
                         User.RactiveList.set('users', User.All.slice(start, start + 10));
@@ -916,9 +1121,10 @@ module Clio {
                 user.email = event.context.email;
 
                 var restClient = new RestClient();
-                restClient.insert("/user", user, null).
+                restClient.insert(path + "user", user, null).
                     success(function (response, headers, config) {
                         User.All.push(response.data);
+                        User.sort(false);
                         if (User.All.length % 10 == 1) {
                             $('#userPager').bootstrapPaginator({ totalPages: Math.ceil(User.All.length / 10) });
                         }
@@ -945,7 +1151,7 @@ module Clio {
 
         static list = function (reviewlist) {
             var restClient = new RestClient();
-            restClient.get("/review", {}, { cache: false }).
+            restClient.get(path + "review", {}, { cache: false }).
                 success(function (response, headers, config) {
                     // do what you do
                     Review.All = response.data;
@@ -994,7 +1200,7 @@ module Clio {
                         return moment(date).fromNow();
                     },
                     gravatar: function (email: string) {
-                        return 'http://www.gravatar.com/avatar/' + md5(email);
+                        return 'http://www.gravatar.com/avatar/' + md5(email.toLowerCase());
                     },
                     emoticon: function (rating) {
                         if (rating == 1) return "emoticon-cry";
@@ -1078,9 +1284,12 @@ module Clio {
                 review.projectId = event.context.projectId;
 
                 var restClient = new RestClient();
-                restClient.insert("/technologyreview", review, null).
+                restClient.insert(path + "technologyreview", review, null).
                     success(function (response, headers, config) {
-                        Review.All.push(response.data);
+                        Review.All.unshift(response.data);
+                        Technology.reviewAdded(review.technologyId);
+                        User.reviewAdded(review.userId);
+                        Project.reviewAdded(review.projectId);
                         if (Review.All.length % 10 == 1) {
                             $('#reviewPager').bootstrapPaginator({ totalPages: Math.ceil(User.All.length / 10) });
                         }
@@ -1123,7 +1332,7 @@ module Clio {
                 review.projectId = event.context.projectId;
 
                 var restClient = new RestClient();
-                restClient.update("/technologyreview", review, null).
+                restClient.update(path + "technologyreview", review, null).
                     success(function (response, headers, config) {
                         var start = (Review.CurrentPage - 1) * 10;
                         Review.RactiveList.set('reviews', Review.All.slice(start, start + 10));
@@ -1174,9 +1383,12 @@ module Clio {
                 review.projectId = event.context.projectId;
 
                 var restClient = new RestClient();
-                restClient.insert("/toolreview", review, null).
+                restClient.insert(path + "toolreview", review, null).
                     success(function (response, headers, config) {
-                        Review.All.push(response.data);
+                        Review.All.unshift(response.data);
+                        Tool.reviewAdded(review.toolId);
+                        User.reviewAdded(review.userId);
+                        Project.reviewAdded(review.projectId);
                         if (Review.All.length % 10 == 1) {
                             $('#reviewPager').bootstrapPaginator({ totalPages: Math.ceil(User.All.length / 10) });
                         }
@@ -1219,7 +1431,7 @@ module Clio {
                 review.projectId = event.context.projectId;
 
                 var restClient = new RestClient();
-                restClient.update("/toolreview", review, null).
+                restClient.update(path + "toolreview", review, null).
                     success(function (response, headers, config) {
                         if (add) {
                             Review.All.push(response.data);

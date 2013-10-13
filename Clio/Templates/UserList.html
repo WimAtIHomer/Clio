@@ -1,11 +1,11 @@
 ﻿<fieldset class="list-resource">
-    <legend>Users <a on-click='add' href="#userModal" class="add-resource hidden" data-toggle="modal" title="add new"><i class="icon-plus-sign"></i></a></legend>
+    <legend>Deelnemers <a on-click='add' href="#userModal" class="add-resource hidden" data-toggle="modal" title="nieuwe toevoegen"><i class="icon-plus-sign"></i></a></legend>
     <div>
         {{#users:index}}
         <div class="link-resource">
-            <a href="#" class="reviewcount" title="{{reviews}} reviews"><span class="badge badge-success">{{reviews}}</span></a>
+            <a href="#" class="reviewcount" title="{{reviews}} ervaringen"><span class="badge badge-success">{{reviews}}</span></a>
             <a on-click="filter" data-index="{{index}}" href="#" data-original-title="{{ email }}" data-toggle="tooltip" title="">{{name}} </a>
-            <a on-click='edit' href="#userModal" class="edit-resource hidden" data-toggle="modal" data-index="{{index}}" title="edit"><i class="icon-edit"></i></a>
+            <a on-click='edit' href="#userModal" class="edit-resource hidden" data-toggle="modal" data-index="{{index}}" title="aanpassen"><i class="icon-edit"></i></a>
         </div>
         {{/users}}
     </div>

@@ -32,7 +32,7 @@ namespace IHomer.Clio.Entities.Repositories
 
         public Dictionary<long, int> GetReviewCountsForUsers()
         {
-            const string sql = "SELECT UserId as [Key], count(1) as [Value] FROM TechnologyReviews GROUP BY UserId";
+            const string sql = "SELECT UserId as [Key], count(1) as [Value] FROM Reviews GROUP BY UserId";
             using (var db = DbFactory.OpenDbConnection())
             {
                 return db.Query<ReviewCount>(sql).ToDictionary(k => k.Key, v => v.Value);

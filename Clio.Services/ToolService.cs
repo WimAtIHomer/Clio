@@ -1,4 +1,5 @@
-﻿using ServiceStack.Common;
+﻿using IHomer.Clio.Services.Hubs;
+using ServiceStack.Common;
 using IHomer.Clio.Entities;
 using IHomer.Clio.Entities.Repositories;
 using IHomer.Clio.Services.DTO;
@@ -18,12 +19,16 @@ namespace IHomer.Clio.Services
 
         public object Post(Tool tool)
         {
-            return Repository.Store(tool);
+            var newTool = Repository.Store(tool);
+            ClioHubManager.NewTool(User, tool);
+            return newTool;
         }
 
         public object Put(Tool tool)
         {
-            return Repository.Store(tool);
+            var editTool = Repository.Store(tool);
+            ClioHubManager.EditTool(User, tool);
+            return editTool;
         }
 
         public void Delete(ToolIds toolIds)

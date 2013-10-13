@@ -1,16 +1,16 @@
 ﻿<div class="modal-header">
     <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
-    <h3>Add Technology</h3>
+    <h3>Technologie toevoegen</h3>
 </div>
 <form name='technology-form' class='form-horizontal' proxy-submit='post'>
     <div class="modal-body">
         <div id="technologyErrorModal"></div>
         <div class="control-group">
-            <label class="control-label" for="inputTechnologyName">Name</label>
-            <input type='text' name="inputTechnologyName" value='{{name}}' placeholder='Name' required>
+            <label class="control-label" for="inputTechnologyName">Naam</label>
+            <input type='text' name="inputTechnologyName" value='{{name}}' placeholder='Naam' required>
         </div>
         <div class="control-group">
-            <label class="control-label" for="inputTechnologyLanguage">Language</label>
+            <label class="control-label" for="inputTechnologyLanguage">Programmeertaal</label>
             <select id="inputTechnologyLanguage" value='{{languageId}}'>
                 {{#languages}}
                 <option value='{{.id}}'>{{.name}}</option>
@@ -26,21 +26,21 @@
             </select>
         </div>
         <div class="control-group">
-            <label class="control-label" for="inputTechnologyLicense">License</label>
-            <input type='text' name="inputTechnologyLicense" value='{{license}}' placeholder='License' required>
+            <label class="control-label" for="inputTechnologyLicense">Licentie</label>
+            <input type='text' name="inputTechnologyLicense" value='{{license}}' placeholder='Licentie' required>
         </div>
         <div class="control-group">
             <label class="control-label" for="inputTechnologyLink">Link</label>
             <input type='url' name="inputTechnologyLink" value='{{link}}' placeholder='Website' required>
         </div>
         <div class="control-group">
-            <label class="control-label" for="inputTechnologyDescription">Description</label>
-            <textarea name="inputTechnologyDescription" rows="5" value='{{description}}' placeholder='Description' required></textarea>
+            <label class="control-label" for="inputTechnologyDescription">Omschrijving</label>
+            <textarea name="inputTechnologyDescription" rows="5" value='{{description}}' placeholder='Omschrijving' required></textarea>
         </div>
     </div>
     <div class="modal-footer">
-        <a href="#" class="btn" data-dismiss="modal">Close</a>
-        <input type='submit' class="btn btn-primary" value='Save' />
+        <a href="#" class="btn" data-dismiss="modal">Sluiten</a>
+        <input type='submit' class="btn btn-primary" value='Opslaan' />
     </div>
 </form>
 

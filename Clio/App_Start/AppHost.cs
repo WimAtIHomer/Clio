@@ -1,4 +1,3 @@
-using ServiceStack.Authentication.OpenId;
 using ServiceStack.Configuration;
 using ServiceStack.ServiceInterface;
 using ServiceStack.ServiceInterface.Auth;
@@ -23,9 +22,6 @@ namespace Clio.App_Start
 			JsConfig.EmitCamelCaseNames = true;
             JsConfig.DateHandler = JsonDateHandler.ISO8601;
 		
-			//Enable Authentication
-			ConfigureAuth(container);
-
 			//Register all your dependencies
 			container.Register(new LanguageRepository());
             container.Register(new ProjectRepository());
@@ -36,6 +32,9 @@ namespace Clio.App_Start
             container.Register(new ToolReviewRepository());
             container.Register(new TagRepository());
             container.Register(new UserRepository());
+
+            //Enable Authentication
+            ConfigureAuth(container);
         }
 
 		// Uncomment to enable ServiceStack Authentication and CustomUserSession
@@ -46,22 +45,8 @@ namespace Clio.App_Start
 			//Default route: /auth/{provider}
 			Plugins.Add(new AuthFeature(() => new CustomUserSession(),
 				new IAuthProvider[] {
-					new GoogleOpenIdOAuthProvider(appSettings)
+					new ClioAuthProvider(appSettings), 
 				})); 
-
-			//Default route: /register
-			//Plugins.Add(new RegistrationFeature()); 
-
-			//Requires ConnectionString configured in Web.Config
-            //var connectionString = ConfigurationManager.ConnectionStrings["AppDb"].ConnectionString;
-            //container.Register<IDbConnectionFactory>(c =>
-            //    new OrmLiteConnectionFactory(connectionString, SqlServerDialect.Provider));
-
-            //container.Register<IUserAuthRepository>(c =>
-            //    new OrmLiteAuthRepository(c.Resolve<IDbConnectionFactory>()));
-
-            //var authRepo = (OrmLiteAuthRepository)container.Resolve<IUserAuthRepository>();
-            //authRepo.CreateMissingTables();
 		}
 
 		public static void Start()

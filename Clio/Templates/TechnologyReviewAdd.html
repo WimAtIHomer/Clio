@@ -1,17 +1,17 @@
 ﻿<div class="modal-header">
     <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
-    <h3>Add Review</h3>
+    <h3>Review toevoegen</h3>
 </div>
 <form name='technologyreview-form' class='form-horizontal' proxy-submit='post'>
     <div class="modal-body">
         <div id="technologyreviewErrorModal"></div>
         <div class="control-group">
-            <label class="control-label" for="inputReviewCustomer">Technology</label>
+            <label class="control-label" for="inputReviewCustomer">Technologie</label>
             <input type='text' name="inputReviewCustomer" value='{{name}}' disabled="disabled">
         </div>
         <div class="control-group">
-            <label class="control-label" for="inputReviewName">Version</label>
-            <input type='text' name="inputReviewName" value='{{version}}' placeholder='Version' required>
+            <label class="control-label" for="inputReviewName">Versie</label>
+            <input type='text' name="inputReviewName" value='{{version}}' placeholder='Versie' required>
         </div>
         <div class="control-group">
             <label class="control-label" for="inputTechnologyProject">Project</label>
@@ -33,13 +33,13 @@
             </div>
         </div>
         <div class="control-group">
-            <label class="control-label" for="inputReviewDescription">Review</label>
-            <textarea name="inputReviewDescription" class="larger" rows="10" value='{{text}}' placeholder='Review' required></textarea>
+            <label class="control-label" for="inputReviewDescription">Ervaring</label>
+            <textarea name="inputReviewDescription" class="larger" rows="10" value='{{text}}' placeholder='Ervaring' required></textarea>
         </div>
     </div>
     <div class="modal-footer">
-        <a href="#" class="btn" data-dismiss="modal">Close</a>
-        <input type='submit' class="btn btn-primary" value='Save' />
+        <a href="#" class="btn" data-dismiss="modal">Sluiten</a>
+        <input type='submit' class="btn btn-primary" value='Opslaan' />
     </div>
 </form>
 

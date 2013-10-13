@@ -1,11 +1,11 @@
 ﻿<fieldset class="list-resource">
-    <legend>Projects <a on-click='add' class="add-resource hidden" href="#projectModal" data-toggle="modal" title="add new"><i class="icon-plus-sign"></i></a></legend>
+    <legend>Projecten <a on-click='add' class="add-resource hidden" href="#projectModal" data-toggle="modal" title="nieuwe toevoegen"><i class="icon-plus-sign"></i></a></legend>
     <div>
         {{#projects:index}}
         <div class='link-resource'>
-            <a href="#" class="reviewcount" title="{{reviews}} reviews"><span class="badge badge-success">{{reviews}}</span></a>
+            <a href="#" class="reviewcount" title="{{reviews}} ervaringen"><span class="badge badge-success">{{reviews}}</span></a>
             <a on-click='filter' data-index="{{index}}" href="#" data-original-title="{{ customer }} ({{format(startDate)}}) {{ description }}" data-toggle="tooltip" title="">{{name}} </a>
-            <a on-click='edit' href="#projectModal" title="edit" data-toggle="modal" class="edit-resource hidden" data-index="{{index}}"><i class="icon-edit"></i></a>
+            <a on-click='edit' href="#projectModal" title="aanpassen" data-toggle="modal" class="edit-resource hidden" data-index="{{index}}"><i class="icon-edit"></i></a>
         </div>
         {{/projects}}
     </div>

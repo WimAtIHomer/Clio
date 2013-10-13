@@ -1,6 +1,4 @@
-﻿/// <reference path="typings/ractive/ractive.d.ts" />
-/// <reference path="typings/jquery/jquery.d.ts" />
-var MyTemplates = (function () {
+﻿var MyTemplates = (function () {
     function MyTemplates() {
     }
     MyTemplates.parsed = {};
@@ -8,7 +6,7 @@ var MyTemplates = (function () {
         if (typeof MyTemplates.parsed[template] != "undefined") {
             callback(MyTemplates.parsed[template], data);
         } else {
-            $.get("/Templates/" + template + ".html", null, function (responseText) {
+            $.get(path + "Templates/" + template + ".html", null, function (responseText) {
                 MyTemplates.parsed[template] = Ractive.parse(responseText);
                 callback(MyTemplates.parsed[template], data);
             });

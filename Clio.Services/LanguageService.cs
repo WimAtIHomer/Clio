@@ -15,6 +15,11 @@ namespace IHomer.Clio.Services
     {
         public LanguageRepository Repository { get; set; } //Injected by IOC
 
+        public LanguageService() : base()
+        {
+            
+        }
+
         public object Get(LanguageIds languageIds)
         {
             return languageIds.Ids.IsEmpty()

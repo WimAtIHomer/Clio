@@ -1,12 +1,13 @@
 ﻿
 $(document).ready(function () {
     var restClient = new RestClient();
-    restClient.get("/currentuser", {}, null).
+    restClient.get(path + "currentuser", {}, null).
         success(function (response, headers, config) {
             // do what you do
             Clio.CurrentUser.user = response.data;
             LoadData();
             Clio.Server.Connect();
+            Clio.Ping.Polling();
         }).
         error(function (response, headers, config) {
             Clio.Error.show(response.error.errorCode + ": " + response.error.message);
@@ -15,7 +16,7 @@ $(document).ready(function () {
             Clio.Error.show(response.validationErrors);
         }).
         unauthorized(function (response, headers, config) {
-            document.location.assign('/auth/googleopenid');
+            document.location.assign(path + 'auth/googleopenid');
         });
 });
 

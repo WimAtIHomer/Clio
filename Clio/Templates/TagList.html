@@ -1,10 +1,10 @@
 ﻿<fieldset class="list-resource">
-    <legend>Tags <a on-click='add' href="#tagModal" class="add-resource hidden" title="add new" data-toggle="modal"><i class="icon-plus-sign"></i></a></legend>
+    <legend>Tags <a on-click='add' href="#tagModal" class="add-resource hidden" title="nieuwe toevoegen" data-toggle="modal"><i class="icon-plus-sign"></i></a></legend>
     <div>
         {{#tags:index}}
         <div class="link-resource">
             <a href="#" data-original-title="{{ description }}" data-toggle="tooltip" title="">{{name}}</a>
-            <a on-click='edit' href="#tagModal" class="edit-resource hidden" title="edit" data-toggle="modal" data-index="{{index}}"><i class="icon-edit"></i></a>
+            <a on-click='edit' href="#tagModal" class="edit-resource hidden" title="aanpassen" data-toggle="modal" data-index="{{index}}"><i class="icon-edit"></i></a>
         </div>
         {{/tags}}
     </div>

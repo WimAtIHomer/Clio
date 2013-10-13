@@ -7,6 +7,14 @@ namespace IHomer.Clio.Entities.Repositories
 {
     public class BaseRepository<T> where T : class, IHasId<long>, new()
     {
+        public virtual T GetById(long id)
+        {
+            using (var db = DbFactory.OpenDbConnection())
+            {
+                return db.GetById<T>(id);
+            }
+        }
+
         public virtual List<T> GetByIds(long[] ids)
         {
             using (var db = DbFactory.OpenDbConnection())

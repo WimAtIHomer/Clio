@@ -1,13 +1,15 @@
 ﻿/// <reference path="typings/ractive/ractive.d.ts" />
 /// <reference path="typings/jquery/jquery.d.ts" />
 
+declare var path: string
+
 class MyTemplates {
 	static parsed = {}
     static checkTemplate = function (template, callback, data) {
         if (typeof MyTemplates.parsed[template] != "undefined") {
             callback(MyTemplates.parsed[template], data);
         } else {
-            $.get("/Templates/" + template + ".html", null, function (responseText) {
+            $.get(path + "Templates/" + template + ".html", null, function (responseText) {
                 MyTemplates.parsed[template] = Ractive.parse(responseText);
                 callback(MyTemplates.parsed[template], data);
             });

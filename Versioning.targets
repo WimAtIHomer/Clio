@@ -1,0 +1,65 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Project xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <Import Project="$(MSBuildExtensionsPath)\MSBuildCommunityTasks\MSBuild.Community.Tasks.Targets" Condition="Exists('$(MSBuildExtensionsPath)\MSBuildCommunityTasks\MSBuild.Community.Tasks.Targets')" />
+
+  <PropertyGroup>
+    <Custom-Producer Condition=" $(Custom-Producer) == '' ">IHomer</Custom-Producer>
+    <Custom-Copyright Condition=" $(Custom-Copyright) == '' ">Copyright (C) 2013 IHomer</Custom-Copyright>
+    <!--We use Jenkins BUILD_NUMBER to determine if we are building on Jenkins CI server or not, if not we use 0 as major and minor version otherwise we use the value specified-->
+    <Custom-Major Condition=" $(MAJOR) != '' ">$(MAJOR)</Custom-Major>
+    <Custom-Minor Condition=" $(MINOR) != '' ">$(MINOR)</Custom-Minor>
+    <Custom-Major Condition=" $(MAJOR) == '' ">0</Custom-Major>
+    <Custom-Minor Condition=" $(MINOR) == '' ">0</Custom-Minor>
+    <!--Jenkins CI sets BUILD_NUMBER and SVN_REVISION -->
+    <Custom-Build Condition=" $(BUILD_NUMBER) != '' ">$(BUILD_NUMBER)</Custom-Build>
+    <Custom-Build Condition=" $(BUILD_NUMBER) == '' ">0</Custom-Build>
+    <Custom-Revision Condition=" $(SVN_REVISION) != '' ">$(SVN_REVISION)</Custom-Revision>
+    <Custom-Revision Condition=" $(SVN_REVISION) == '' ">0</Custom-Revision>
+
+    <ProjectPropertiesDir>Properties</ProjectPropertiesDir>
+  </PropertyGroup>
+
+  <Target Name="Custom-ConfigureVersionNumber">
+    <CreateProperty Value="$(Custom-Major).$(Custom-Minor).$(Custom-Build).$(Custom-Revision)">
+      <Output PropertyName="Custom-VersionNumber" TaskParameter="Value" />
+    </CreateProperty>
+  </Target>
+
+  <ItemGroup>
+    <Custom-AssemblyInfo Include="$(ProjectPropertiesDir)\AssemblyInfo.cs" />
+  </ItemGroup>
+
+  <Target Name="Custom-CreateAssemblyInfo" DependsOnTargets="Custom-ConfigureVersionNumber">
+    <MakeDir Directories="$(ProjectPropertiesDir)" />
+    <AssemblyInfo OutputFile="@(Custom-AssemblyInfo)"
+						  CodeLanguage="CS"
+						  AssemblyCompany="$(Custom-Producer)"
+						  AssemblyConfiguration="$(Configuration)"
+						  AssemblyCopyright="$(Custom-Copyright)"
+						  AssemblyTitle="$(AssemblyName)"
+						  AssemblyInformationalVersion="$(Custom-VersionNumber)"
+						  AssemblyFileVersion="$(Custom-VersionNumber)"
+						  AssemblyVersion="$(Custom-VersionNumber)"
+              CLSCompliant="false"
+              ComVisible="false"
+						  />
+  </Target>
+
+  <Target Name="Custom-DeleteAssemblyInfo">
+    <Delete Files="@(Custom-AssemblyInfo)" />
+  </Target>
+
+  <Choose>
+    <When Condition="Exists('$(MSBuildExtensionsPath)\MSBuildCommunityTasks\MSBuild.Community.Tasks.Targets')">
+      <ItemGroup>
+        <Compile Include="@(Custom-AssemblyInfo)" />
+      </ItemGroup>
+      <PropertyGroup>
+        <!--BuildDependsOn>Custom-ConfigureVersionNumber;Custom-CreateAssemblyInfo;$(BuildDependsOn)</BuildDependsOn-->
+        <BuildDependsOn>Custom-CreateAssemblyInfo;$(BuildDependsOn);Custom-DeleteAssemblyInfo</BuildDependsOn>
+        <CleanDependsOn>Custom-DeleteAssemblyInfo;$(CleanDependsOn)</CleanDependsOn>
+      </PropertyGroup>
+    </When>
+  </Choose>
+
+</Project>

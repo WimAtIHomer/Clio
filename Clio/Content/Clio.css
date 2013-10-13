@@ -9,14 +9,33 @@
     -webkit-border-radius: 10px;
     border-radius: 10px;
 }
+@media (min-width: 767px)
+{
+    .link-resource:hover a.edit-resource
+    {
+        display: inline;
+        visibility: visible;
+    }
 
-.link-resource:hover a.edit-resource {
-    display: inline;
-    visibility: visible;
+    .list-resource:hover a.add-resource
+    {
+        display: inline;
+        visibility: visible;
+    }
 }
-.list-resource:hover a.add-resource {
-    display: inline;
-    visibility: visible;
+@media (max-width: 767px)
+{
+    .link-resource a.edit-resource
+    {
+        display: inline;
+        visibility: visible;
+    }
+
+    .list-resource a.add-resource
+    {
+        display: inline;
+        visibility: visible;
+    }
 }
 .list-resource {
     margin-bottom: 0px;

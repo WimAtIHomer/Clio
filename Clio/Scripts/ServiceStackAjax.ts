@@ -16,6 +16,7 @@ class RestClient {
         config.type = "PUT";
         config.data = JSON.stringify(data);
         config.url = url;
+        config.processData = false;
         config.dataType = "json";
         config.contentType = "application/json; charset=utf-8";
         return this.execute(config);
