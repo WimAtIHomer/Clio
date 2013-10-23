@@ -2,20 +2,20 @@
 $(document).ready(function () {
     var restClient = new RestClient();
     restClient.get(path + "currentuser", {}, null).
-        success(function (response, headers, config) {
+        success(function (response) {
             // do what you do
             Clio.CurrentUser.user = response.data;
             LoadData();
             Clio.Server.Connect();
             Clio.Ping.Polling();
         }).
-        error(function (response, headers, config) {
+        error(function (response) {
             Clio.Error.show(response.error.errorCode + ": " + response.error.message);
         }).
-        validation(function (response, headers, config) {
+        validation(function (response) {
             Clio.Error.show(response.validationErrors);
         }).
-        unauthorized(function (response, headers, config) {
+        unauthorized(function (response) {
             document.location.assign(path + 'auth/googleopenid');
         });
 });

@@ -44,10 +44,10 @@ var RestClient = (function () {
     RestClient.prototype.execute = function (config) {
         var d, errorFn, me, promise, successFn, validationFn, unauthorizedFn;
         me = this;
-        successFn = [];
-        errorFn = [];
-        validationFn = [];
-        unauthorizedFn = [];
+        successFn = null;
+        errorFn = null;
+        validationFn = null;
+        unauthorizedFn = null;
         d = jQuery.Deferred();
         promise = jQuery.ajax(config);
         promise.then(function (data, textStatus, jqXHR) {
@@ -60,37 +60,41 @@ var RestClient = (function () {
             return d.resolve(result);
         });
         d.promise.success = function (fn) {
-            successFn.push(fn);
+            successFn = fn;
             d.then(function (response) {
-                if (response.success) {
-                    return fn(response, response.headers, response.config);
+                if (response.success && successFn) {
+                    return successFn(response, response.headers, response.config);
                 }
             });
             return d.promise;
         };
         d.promise.error = function (fn) {
-            errorFn.push(fn);
+            errorFn = fn;
+            if (!validationFn)
+                d.promise.validation(fn);
+            if (!unauthorizedFn)
+                d.promise.unauthorized(fn);
             d.then(function (response) {
-                if (response.isUnhandledError() && !response.hasValidationError()) {
-                    return fn(response, response.headers, response.config);
+                if (response.isUnhandledError() && !response.hasValidationError() && errorFn) {
+                    return errorFn(response);
                 }
             });
             return d.promise;
         };
         d.promise.validation = function (fn) {
-            validationFn.push(fn);
+            validationFn = fn;
             d.then(function (response) {
-                if (response.isUnhandledError() && response.hasValidationError()) {
-                    return fn(response, response.headers, response.config);
+                if (response.isUnhandledError() && response.hasValidationError() && validationFn) {
+                    return validationFn(response);
                 }
             });
             return d.promise;
         };
         d.promise.unauthorized = function (fn) {
-            unauthorizedFn.push(fn);
+            unauthorizedFn = fn;
             d.then(function (response) {
-                if (response.isUnauthenticated()) {
-                    return fn(response, response.headers, response.config);
+                if (response.isUnauthenticated() && unauthorizedFn) {
+                    return unauthorizedFn(response);
                 }
             });
             return d.promise;

@@ -198,16 +198,16 @@ module Clio {
         static GetTime = function () {
             var restClient = new RestClient();
             restClient.get(path + "time", {}, { cache: false }).
-                success(function (response, headers, config) {
+                success(function (response) {
                     $("#time").html(response.data.time);
                 }).
-                error(function (response, headers, config) {
+                error(function (response) {
                     Error.show(response.error.errorCode + ": " + response.error.message);
                 }).
-                validation(function (response, headers, config) {
+                validation(function (response) {
                     Error.show(response.validationErrors);
                 }).
-                unauthorized(function (response, headers, config) {
+                unauthorized(function (response) {
                     Error.show("Session timeout");
                 });
         }
@@ -272,7 +272,7 @@ module Clio {
         static list = function (taglist) {
             var restClient = new RestClient();
             restClient.get(path + "tag", {}, { cache: false }).
-                success(function (response, headers, config) {
+                success(function (response) {
                     // do what you do
                     Tag.All = response.data;
                     Tag.sort(false);
@@ -292,10 +292,10 @@ module Clio {
                         });
                     });
                 }).
-                error(function (response, headers, config) {
+                error(function (response) {
                     Error.show(response.error.errorCode + ": " + response.error.message);
                 }).
-                validation(function (response, headers, config) {
+                validation(function (response) {
                     Error.show(response.validationErrors);
                 });
 
@@ -338,16 +338,16 @@ module Clio {
 
                 var restClient = new RestClient();
                 restClient.update(path + "tag", tag, null).
-                    success(function (response, headers, config) {
+                    success(function (response) {
                         var start = (Tag.CurrentPage - 1) * 10;
                         Tag.RactiveList.set('tags', Tag.All.slice(start, start + 10));
                         $('#tags a').tooltip({});
                         $('#tagModal').modal('toggle');
                     }).
-                    error(function (response, headers, config) {
+                    error(function (response) {
                         Error.showModal(response.error.errorCode + ": " + response.error.message);
                     }).
-                    validation(function (response, headers, config) {
+                    validation(function (response) {
                         Error.showModal(response.validationErrors);
                     });
             });
@@ -373,7 +373,7 @@ module Clio {
 
                 var restClient = new RestClient();
                 restClient.insert(path + "tag", tag, null).
-                    success(function (response, headers, config) {
+                    success(function (response) {
                         Tag.All.push(response.data);
                         if (Tag.All.length % 10 == 1) {
                             $('#tagPager').bootstrapPaginator({ totalPages: Math.ceil(Tag.All.length / 10) });
@@ -383,10 +383,10 @@ module Clio {
                         $('#tags a').tooltip({});
                         $('#tagModal').modal('toggle');
                     }).
-                    error(function (response, headers, config) {
+                    error(function (response) {
                         Error.showModal(response.error.errorCode + ": " + response.error.message);
                     }).
-                    validation(function (response, headers, config) {
+                    validation(function (response) {
                         Error.showModal(response.validationErrors);
                     });
             });
@@ -429,7 +429,7 @@ module Clio {
         static list = function(projectlist) {
             var restClient = new RestClient();
             restClient.get(path + "project", {}, { cache: false }).
-                success(function (response, headers, config) {
+                success(function (response) {
                     // do what you do
                     Project.All = response.data;
                     Project.RactiveList.set('projects', Project.All.slice(0, 10), function () {
@@ -448,10 +448,10 @@ module Clio {
                         });
                     });
                 }).
-                error(function (response, headers, config) {
+                error(function (response) {
                     Error.show(response.error.errorCode + ": " + response.error.message);
                 }).
-                validation(function (response, headers, config) {
+                validation(function (response) {
                     Error.show(response.validationErrors);
                 });
 
@@ -510,16 +510,16 @@ module Clio {
 
                 var restClient = new RestClient();
                 restClient.update(path + "project", project, null).
-                    success(function (response, headers, config) {
+                    success(function (response) {
                         var start = (Project.CurrentPage - 1) * 10;
                         Project.RactiveList.set('projects', Project.All.slice(start, start + 10));
                         $('#projects a').tooltip({});
                         $('#projectModal').modal('toggle');
                     }).
-                    error(function (response, headers, config) {
+                    error(function (response) {
                         Error.showModal(response.error.errorCode + ": " + response.error.message);
                     }).
-                    validation(function (response, headers, config) {
+                    validation(function (response) {
                         Error.showModal(response.validationErrors);
                     });
             });
@@ -554,7 +554,7 @@ module Clio {
 
                 var restClient = new RestClient();
                 restClient.insert(path + "project", project, null).
-                    success(function (response, headers, config) {
+                    success(function (response) {
                         Project.All.push(response.data);
                         Project.sort(false);
                         if (Project.All.length % 10 == 1) {
@@ -565,10 +565,10 @@ module Clio {
                         $('#projects a').tooltip({});
                         $('#projectModal').modal('toggle');
                     }).
-                    error(function (response, headers, config) {
+                    error(function (response) {
                         Error.showModal(response.error.errorCode + ": " + response.error.message);
                     }).
-                    validation(function (response, headers, config) {
+                    validation(function (response) {
                         Error.showModal(response.validationErrors);
                     });
             });
@@ -612,7 +612,7 @@ module Clio {
         static list = function (technologylist) {
             var restClient = new RestClient();
             restClient.get(path + "technology", {}, { cache: false }).
-                success(function (response, headers, config) {
+                success(function (response) {
                     // do what you do
                     Technology.All = response.data;
                     Technology.sort(false);
@@ -632,23 +632,23 @@ module Clio {
                         });
                     });
                 }).
-                error(function (response, headers, config) {
+                error(function (response) {
                     Error.show(response.error.errorCode + ": " + response.error.message);
                 }).
-                validation(function (response, headers, config) {
+                validation(function (response) {
                     Error.show(response.validationErrors);
                 });
 
             restClient.get(path + "language", {}, { cache: false }).
-                success(function (response, headers, config) {
+                success(function (response) {
                     // do what you do
                     Technology.Languages = response.data;
                     Technology.RactiveList.set('languages', Technology.Languages);
                 }).
-                error(function (response, headers, config) {
+                error(function (response) {
                     Error.show(response.error.errorCode + ": " + response.error.message);
                 }).
-                validation(function (response, headers, config) {
+                validation(function (response) {
                     Error.show(response.validationErrors);
                 });
 
@@ -719,16 +719,16 @@ module Clio {
 
                 var restClient = new RestClient();
                 restClient.update(path + "technology", technology, null).
-                    success(function (response, headers, config) {
+                    success(function (response) {
                         var start = (Technology.CurrentPage - 1) * 10;
                         Technology.RactiveList.set('technologies', Technology.All.slice(start, start + 10));
                         $('#technologies a').tooltip({});
                         $('#technologyModal').modal('toggle');
                     }).
-                    error(function (response, headers, config) {
+                    error(function (response) {
                         Error.showModal(response.error.errorCode + ": " + response.error.message);
                     }).
-                    validation(function (response, headers, config) {
+                    validation(function (response) {
                         Error.showModal(response.validationErrors);
                     });
             });
@@ -764,7 +764,7 @@ module Clio {
 
                 var restClient = new RestClient();
                 restClient.insert(path + "technology", technology, null).
-                    success(function (response, headers, config) {
+                    success(function (response) {
                         Technology.All.push(response.data);
                         Technology.sort(false);
                         if (Technology.All.length % 10 == 1) {
@@ -775,10 +775,10 @@ module Clio {
                         $('#technologies a').tooltip({});
                         $('#technologyModal').modal('toggle');
                     }).
-                    error(function (response, headers, config) {
+                    error(function (response) {
                         Error.showModal(response.error.errorCode + ": " + response.error.message);
                     }).
-                    validation(function (response, headers, config) {
+                    validation(function (response) {
                         Error.showModal(response.validationErrors);
                     });
             });
@@ -821,7 +821,7 @@ module Clio {
         static list = function (toollist) {
             var restClient = new RestClient();
             restClient.get(path + "tool", {}, { cache: false }).
-                success(function (response, headers, config) {
+                success(function (response) {
                     // do what you do
                     Tool.All = response.data;
                     Tool.sort(false);
@@ -841,10 +841,10 @@ module Clio {
                         });
                     });
                 }).
-                error(function (response, headers, config) {
+                error(function (response) {
                     Error.show(response.error.errorCode + ": " + response.error.message);
                 }).
-                validation(function (response, headers, config) {
+                validation(function (response) {
                     Error.show(response.validationErrors);
                 });
 
@@ -910,16 +910,16 @@ module Clio {
 
                 var restClient = new RestClient();
                 restClient.update(path + "tool", tool, null).
-                    success(function (response, headers, config) {
+                    success(function (response) {
                         var start = (Tool.CurrentPage - 1) * 10;
                         Tool.RactiveList.set('tools', Tool.All.slice(start, start + 10));
                         $('#tools a').tooltip({});
                         $('#toolModal').modal('toggle');
                     }).
-                    error(function (response, headers, config) {
+                    error(function (response) {
                         Error.showModal(response.error.errorCode + ": " + response.error.message);
                     }).
-                    validation(function (response, headers, config) {
+                    validation(function (response) {
                         Error.showModal(response.validationErrors);
                     });
             });
@@ -954,7 +954,7 @@ module Clio {
                 
                 var restClient = new RestClient();
                 restClient.insert(path + "tool", tool, null).
-                    success(function (response, headers, config) {
+                    success(function (response) {
                         Tool.All.push(response.data);
                         Tool.sort(false);
                         if (Tool.All.length % 10 == 1) {
@@ -965,10 +965,10 @@ module Clio {
                         $('#tools a').tooltip({});
                         $('#toolModal').modal('toggle');
                     }).
-                    error(function (response, headers, config) {
+                    error(function (response) {
                         Error.showModal(response.error.errorCode + ": " + response.error.message);
                     }).
-                    validation(function (response, headers, config) {
+                    validation(function (response) {
                         Error.showModal(response.validationErrors);
                     });
             });
@@ -1011,7 +1011,7 @@ module Clio {
         static list = function (userlist) {
             var restClient = new RestClient();
             restClient.get(path + "user", {}, { cache: false }).
-                success(function (response, headers, config) {
+                success(function (response) {
                     // do what you do
                     User.All = response.data;
                     User.sort(false);
@@ -1031,10 +1031,10 @@ module Clio {
                         });
                     });
                 }).
-                error(function (response, headers, config) {
+                error(function (response) {
                     Error.show(response.error.errorCode + ": " + response.error.message);
                 }).
-                validation(function (response, headers, config) {
+                validation(function (response) {
                     Error.show(response.validationErrors);
                 });
 
@@ -1086,16 +1086,16 @@ module Clio {
 
                 var restClient = new RestClient();
                 restClient.update(path + "user", user, null).
-                    success(function (response, headers, config) {
+                    success(function (response) {
                         var start = (User.CurrentPage - 1) * 10;
                         User.RactiveList.set('users', User.All.slice(start, start + 10));
                         $('#users a').tooltip({});
                         $('#userModal').modal('toggle');
                     }).
-                    error(function (response, headers, config) {
+                    error(function (response) {
                         Error.showModal(response.error.errorCode + ": " + response.error.message);
                     }).
-                    validation(function (response, headers, config) {
+                    validation(function (response) {
                         Error.showModal(response.validationErrors);
                     });
             });
@@ -1122,7 +1122,7 @@ module Clio {
 
                 var restClient = new RestClient();
                 restClient.insert(path + "user", user, null).
-                    success(function (response, headers, config) {
+                    success(function (response) {
                         User.All.push(response.data);
                         User.sort(false);
                         if (User.All.length % 10 == 1) {
@@ -1133,10 +1133,10 @@ module Clio {
                         $('#users a').tooltip({});
                         $('#userModal').modal('toggle');
                     }).
-                    error(function (response, headers, config) {
+                    error(function (response) {
                         Error.showModal(response.error.errorCode + ": " + response.error.message);
                     }).
-                    validation(function (response, headers, config) {
+                    validation(function (response) {
                         Error.showModal(response.validationErrors);
                     });
             });
@@ -1152,7 +1152,7 @@ module Clio {
         static list = function (reviewlist) {
             var restClient = new RestClient();
             restClient.get(path + "review", {}, { cache: false }).
-                success(function (response, headers, config) {
+                success(function (response) {
                     // do what you do
                     Review.All = response.data;
                     Review.RactiveList.set('reviews', Review.All.slice(0, 10), function () {
@@ -1173,10 +1173,10 @@ module Clio {
                         });
                     });
                 }).
-                error(function (response, headers, config) {
+                error(function (response) {
                     Error.show(response.error.errorCode + ": " + response.error.message);
                 }).
-                validation(function (response, headers, config) {
+                validation(function (response) {
                     Error.show(response.validationErrors);
                 });
 
@@ -1285,7 +1285,7 @@ module Clio {
 
                 var restClient = new RestClient();
                 restClient.insert(path + "technologyreview", review, null).
-                    success(function (response, headers, config) {
+                    success(function (response) {
                         Review.All.unshift(response.data);
                         Technology.reviewAdded(review.technologyId);
                         User.reviewAdded(review.userId);
@@ -1298,10 +1298,10 @@ module Clio {
                         $('#reviews a').tooltip({});
                         $('#reviewModal').modal('toggle');
                     }).
-                    error(function (response, headers, config) {
+                    error(function (response) {
                         Error.showModal(response.error.errorCode + ": " + response.error.message);
                     }).
-                    validation(function (response, headers, config) {
+                    validation(function (response) {
                         Error.showModal(response.validationErrors);
                     });
             });
@@ -1333,16 +1333,16 @@ module Clio {
 
                 var restClient = new RestClient();
                 restClient.update(path + "technologyreview", review, null).
-                    success(function (response, headers, config) {
+                    success(function (response) {
                         var start = (Review.CurrentPage - 1) * 10;
                         Review.RactiveList.set('reviews', Review.All.slice(start, start + 10));
                         $('#reviews a').tooltip({});
                         $('#reviewModal').modal('toggle');
                     }).
-                    error(function (response, headers, config) {
+                    error(function (response) {
                         Error.showModal(response.error.errorCode + ": " + response.error.message);
                     }).
-                    validation(function (response, headers, config) {
+                    validation(function (response) {
                         Error.showModal(response.validationErrors);
                     });
             });
@@ -1384,7 +1384,7 @@ module Clio {
 
                 var restClient = new RestClient();
                 restClient.insert(path + "toolreview", review, null).
-                    success(function (response, headers, config) {
+                    success(function (response) {
                         Review.All.unshift(response.data);
                         Tool.reviewAdded(review.toolId);
                         User.reviewAdded(review.userId);
@@ -1397,10 +1397,10 @@ module Clio {
                         $('#reviews a').tooltip({});
                         $('#reviewModal').modal('toggle');
                     }).
-                    error(function (response, headers, config) {
+                    error(function (response) {
                         Error.showModal(response.error.errorCode + ": " + response.error.message);
                     }).
-                    validation(function (response, headers, config) {
+                    validation(function (response) {
                         Error.showModal(response.validationErrors);
                     });
             });
@@ -1432,7 +1432,7 @@ module Clio {
 
                 var restClient = new RestClient();
                 restClient.update(path + "toolreview", review, null).
-                    success(function (response, headers, config) {
+                    success(function (response) {
                         if (add) {
                             Review.All.push(response.data);
                             if (Review.All.length % 10 == 1) {
@@ -1444,10 +1444,10 @@ module Clio {
                         $('#reviews a').tooltip({});
                         $('#reviewModal').modal('toggle');
                     }).
-                    error(function (response, headers, config) {
+                    error(function (response) {
                         Error.showModal(response.error.errorCode + ": " + response.error.message);
                     }).
-                    validation(function (response, headers, config) {
+                    validation(function (response) {
                         Error.showModal(response.validationErrors);
                     });
             });
